@@ -44,7 +44,7 @@ Emitter(Dragdrop.prototype);
 Dragdrop.prototype.ondragstart = function(e){
   this.src = parent(e.target);
   classes(this.src).add('dragging');
-  this.emit('start', this.src);
+  this.emit('start', this.src, e);
 };
 
 /**
@@ -54,7 +54,7 @@ Dragdrop.prototype.ondragstart = function(e){
 Dragdrop.prototype.ondragenter = function(e){
   e.preventDefault();
   e.stopPropagation();
-  this.emit('enter', parent(e.target));
+  this.emit('enter', parent(e.target), e);
 };
 
 /**
@@ -67,7 +67,7 @@ Dragdrop.prototype.ondragover = function(e){
   var target = parent(e.target);
   this.drop = target;
   classes(target).add('over');
-  this.emit('over', target);
+  this.emit('over', target, e);
 };
 
 /**
@@ -79,7 +79,7 @@ Dragdrop.prototype.ondragleave = function(e){
   e.stopPropagation();
   var target = parent(e.target);
   classes(target).remove('over');
-  this.emit('leave', target);
+  this.emit('leave', target, e);
 };
 
 /**
@@ -90,7 +90,7 @@ Dragdrop.prototype.ondragend = function(e){
   e.preventDefault();
   e.stopPropagation();
   if (this.src) classes(this.src).remove('dragging');
-  this.emit('end', this.src);
+  this.emit('end', this.src, e);
 };
 
 /**
@@ -103,7 +103,7 @@ Dragdrop.prototype.ondrop = function(e){
   var target = parent(e.target);
   if (target) classes(target).remove('over');
   if (this.src) classes(this.src).remove('dragging').remove('over');
-  this.emit('drop', this.src, this.drop);
+  this.emit('drop', this.src, this.drop, e);
 };
 
 /**
